@@ -87,10 +87,15 @@ jobs:
         run: tflint --recursive
 
       - name: Install Checkov
-        run: pip install checkov
+        run: |
+          python3 -m venv .checkov-env
+          .checkov-env/bin/pip install --upgrade pip
+          .checkov-env/bin/pip install checkov
 
       - name: Run Checkov
-        run: checkov -d .  --skip-check CKV_GHA_7,CKV_TF_1
+        run: |
+          .checkov-env/bin/checkov -d . --skip-check CKV_GHA_7,CKV_TF_1
+
 
   plan:
     if: github.event.inputs.deployment_action == 'plan' || github.event.inputs.deployment_action == 'apply'
