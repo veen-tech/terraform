@@ -36,7 +36,7 @@ env:
 
 jobs:
   validate:
-    runs-on: terraform
+    runs-on: infra
 
     steps:
       - name: Checkout Repository
@@ -95,7 +95,7 @@ jobs:
   plan:
     if: github.event.inputs.deployment_action == 'plan' || github.event.inputs.deployment_action == 'apply'
     needs: validate
-    runs-on: terraform
+    runs-on: infra
 
     steps:
       - name: Checkout Repository
@@ -147,7 +147,7 @@ jobs:
   apply:
     if: github.event.inputs.deployment_action == 'apply'
     needs: approval
-    runs-on: terraform
+    runs-on: infra
 
     steps:
       - name: Checkout Repository
@@ -182,7 +182,7 @@ jobs:
 
   destroy:
     needs: apply
-    runs-on: terraform
+    runs-on: infra
     if: github.event.inputs.destroy == 'true'
 
     steps:
